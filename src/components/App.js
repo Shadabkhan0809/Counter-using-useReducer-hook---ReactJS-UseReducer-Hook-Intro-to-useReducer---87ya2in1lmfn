@@ -1,17 +1,31 @@
-import React, { useReducer } from 'react'
-import { counterReducer } from '../reducers/counterReducer';
-import '../styles/App.css';
-const initialState=0;
-const App = () => {
-const [state,dispatch] = useReducer(counterReducer,initialState);
-  return (
-    <div id="main">
-     <span id="counter">{state}</span>
-      <button id="increment-btn" onClick={()=>dispatch({type:"increment"})}>increment</button>
-     <button id="decrement-btn" onClick={()=>dispatch({type:"decrement"})}>decrement</button>
-    </div>
-  )
+import './App.css';
+import { useReducer } from 'react';
+const initialTaskState ={
+  count:0
 }
-
+const reducer = (state,action)=>{
+  if(action.type === 'add'){
+    return state +1
+  }
+  if (action.type === 'delete') {
+    return state  - 1;
+  }
+  if (action.type === 'deleteAll') {
+    return state  = 0;
+  }
+  return state 
+}
+function App() {
+  const [taskState , dispatch] = useReducer(reducer, initialTaskState.count)
+  return (
+    <div className="App">
+      <h2>Task Counter</h2>
+      <button onClick={() => dispatch({ type: 'add' })} id="addTaskBtn">Add a task</button>
+      <button onClick={() => dispatch({ type: 'delete' })} id="delTaskBtn">Delete a task</button>
+      <button onClick={() => dispatch({ type: 'deleteAll' })} id="delAllTaskBtn">Delete all tasks</button>
+      <h3 className="counter">Number of Tasks : {taskState }</h3>
+    </div>
+  );
+}
 
 export default App;
